@@ -8,6 +8,7 @@
 
 from tank.platform.qt import QtCore, QtGui
 
+
 class Ui_PlayblastDialog(object):
     def setupUi(self, PlayblastDialog):
         PlayblastDialog.setObjectName("PlayblastDialog")
@@ -17,9 +18,9 @@ class Ui_PlayblastDialog(object):
         self.cmbPercentage = QtGui.QComboBox(PlayblastDialog)
         self.cmbPercentage.setObjectName("cmbPercentage")
         self.gridLayout.addWidget(self.cmbPercentage, 0, 0, 1, 1)
-        self.chbUploadToShotgun = QtGui.QCheckBox(PlayblastDialog)
-        self.chbUploadToShotgun.setObjectName("chbUploadToShotgun")
-        self.gridLayout.addWidget(self.chbUploadToShotgun, 0, 1, 1, 1)
+        # self.chbUploadToShotgun = QtGui.QCheckBox(PlayblastDialog)
+        # self.chbUploadToShotgun.setObjectName("chbUploadToShotgun")
+        # self.gridLayout.addWidget(self.chbUploadToShotgun, 0, 1, 1, 1)
         self.chbShowViewer = QtGui.QCheckBox(PlayblastDialog)
         self.chbShowViewer.setChecked(True)
         self.chbShowViewer.setObjectName("chbShowViewer")
@@ -34,8 +35,9 @@ class Ui_PlayblastDialog(object):
 
     def retranslateUi(self, PlayblastDialog):
         PlayblastDialog.setWindowTitle(QtGui.QApplication.translate("PlayblastDialog", "The Current Sgtk Environment", None, QtGui.QApplication.UnicodeUTF8))
-        self.chbUploadToShotgun.setText(QtGui.QApplication.translate("PlayblastDialog", "Upload to Shotgun", None, QtGui.QApplication.UnicodeUTF8))
+        # self.chbUploadToShotgun.setText(QtGui.QApplication.translate("PlayblastDialog", "Upload to Shotgun", None, QtGui.QApplication.UnicodeUTF8))
         self.chbShowViewer.setText(QtGui.QApplication.translate("PlayblastDialog", "Show Viewer", None, QtGui.QApplication.UnicodeUTF8))
         self.btnPlayblast.setText(QtGui.QApplication.translate("PlayblastDialog", "Playblast", None, QtGui.QApplication.UnicodeUTF8))
+
 
 from . import resources_rc
