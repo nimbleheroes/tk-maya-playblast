@@ -33,7 +33,7 @@ class PlayblastManager(object):
 
     def showDialog(self):
         try:
-            self._app.engine.show_dialog("Playblast %s" % self._app.version,
+            self._app.engine.show_dialog("Playblaster",
                                          self._app, PlayblastDialog, self._app, self)
         except:
             traceback.print_exc()

@@ -10,6 +10,7 @@
 
 import os
 import re
+import sys
 
 import maya.cmds as cmds
 import pymel.core as pm
@@ -64,14 +65,21 @@ PLAYBLAST_PARAMS = {
     "forceOverwrite": True,
     "format": "qt",
     "framePadding": 4,
-    "compression": "H.264",
+    # "compression": "H.264",
+    "compression": "jpeg",
     "offScreen": True,
     "percent": 100,
     "showOrnaments": True,
     "viewer": False,
     "sequenceTime": 0,
     "clearCache": True,
-    "quality": 70,
+    "quality": 80,
+}
+
+USERNAME_ENV_VAR = {
+    "linux2": "USER",
+    "darwin": "LOGNAME",
+    "win32": "USERNAME",
 }
 
 
@@ -100,7 +108,7 @@ class SetupWindow(Hook):
             # User name
             editExistingHUD = 'HUDUserName' in pm.headsUpDisplay(listHeadsUpDisplays=True)
             pm.headsUpDisplay('HUDUserName', edit=editExistingHUD,
-                              command=lambda: os.getenv("USERNAME", "unknown.user"),
+                              command=lambda: os.getenv(USERNAME_ENV_VAR[sys.platform], "unknown.user"),
                               event='playblasting', section=1, block=1)
             pm.headsUpDisplay('HUDUserName', edit=True, visible=True, label="User:")
             # Scene name
