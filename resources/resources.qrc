@@ -1,5 +1,5 @@
 <RCC>
   <qresource prefix="res">
-    <file>base_logo.png</file>
+    <file>nexodus_logo.png</file>
   </qresource>
 </RCC>

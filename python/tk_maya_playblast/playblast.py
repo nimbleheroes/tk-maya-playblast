@@ -38,7 +38,7 @@ class PlayblastManager(object):
         except:
             traceback.print_exc()
 
-    def doPlayblast(self, **overridePlayblastParams):
+    def doPlayblast(self, playblastCamera='persp', **overridePlayblastParams):
         template_work_file = self._app.get_template("template_work_file")
         template_work_playblast = self._app.get_template("template_work_playblast")
         sceneName = pm.sceneName()
@@ -58,10 +58,10 @@ class PlayblastManager(object):
         # use the basename of generated names
         # self.localPlayblastPath = os.path.join(temp_directory, os.path.basename(self.shotPlayblastPath))
         # run actual playblast routine
-        self.__createPlayblast(**overridePlayblastParams)
+        self.__createPlayblast(playblastCamera=playblastCamera, **overridePlayblastParams)
         self._app.log_info("Playblast for %s succesful" % sceneName)
 
-    def __createPlayblast(self, **overridePlayblastParams):
+    def __createPlayblast(self, playblastCamera='persp', **overridePlayblastParams):
         localPlayblastPath = self.shotPlayblastPath
 
         # setting playback range
@@ -74,7 +74,7 @@ class PlayblastManager(object):
         # get playblast parameters from hook
         playblastParams = self._app.execute_hook("hook_setup_window", action="playblast_params", data=localPlayblastPath)
         # get window and editor parameters from hook
-        createWindow = self._app.execute_hook("hook_setup_window", action='create_window')
+        createWindow = self._app.execute_hook("hook_setup_window", action='create_window', data=playblastCamera)
 
         # with the created window, do a playblast
         with createWindow():

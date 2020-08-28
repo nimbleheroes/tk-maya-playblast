@@ -139,12 +139,14 @@ class SetupWindow(Hook):
 
         elif action == "create_window":
             # setting up context window for playblast
+
             @contextmanager
             def createWindow():
                 """ try to get data from shotgun project fields
                     need to get context's project
                                 context's shotgun instance
                 """
+                MODEL_EDITOR_PARAMS["cam"] = data
                 app = self.parent
                 project = app.context.project
                 sg = app.context.tank.shotgun
