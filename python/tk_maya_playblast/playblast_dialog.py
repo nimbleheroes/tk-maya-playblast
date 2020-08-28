@@ -1,9 +1,12 @@
 
-import tank
 import os
+import re
 import sys
 import threading
 
+import maya.cmds as cmds
+
+import tank
 from tank.platform.qt import QtCore, QtGui
 from .ui.playblast_dialog import Ui_PlayblastDialog
 
@@ -50,6 +53,22 @@ class PlayblastDialog(QtGui.QWidget):
         for percentInt in scaleIntList:
             self._ui.cmbPercentage.addItem("%d%%" % percentInt, userData=percentInt)
 
+        # Get all cameras first
+        cameras = cmds.ls(type=('camera'), l=True)
+        # Let's filter all startup / default cameras
+        startup_cameras = [camera for camera in cameras if cmds.camera(cmds.listRelatives(camera, parent=True)[0], startupCamera=True, q=True)]
+        # non-default cameras are easy to find now.
+        non_startup_cameras = list(set(cameras) - set(startup_cameras))
+        # Let's get their respective transform names, just in-case
+        startup_cameras_transforms = map(lambda x: cmds.listRelatives(x, parent=True)[0], startup_cameras)
+        non_startup_cameras_transforms = map(lambda x: cmds.listRelatives(x, parent=True)[0], non_startup_cameras)
+
+        for c in non_startup_cameras_transforms:
+            self._ui.cmbCamera.addItem(c, userData=c)
+        for c in startup_cameras_transforms:
+            self._ui.cmbCamera.addItem(c, userData=c)
+        self._ui.cmbCamera.insertSeparator(len(non_startup_cameras_transforms))
+
     def doPlayblast(self):
         overridePlayblastParams = {}
 
@@ -61,5 +80,8 @@ class PlayblastDialog(QtGui.QWidget):
 
         percentInt = self._ui.cmbPercentage.itemData(self._ui.cmbPercentage.currentIndex())
         overridePlayblastParams["percent"] = percentInt
-        self._handler.doPlayblast(**overridePlayblastParams)
+
+        camera = self._ui.cmbCamera.itemData(self._ui.cmbCamera.currentIndex())
+
+        self._handler.doPlayblast(playblastCamera=camera, **overridePlayblastParams)
         self.close()
